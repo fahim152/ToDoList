@@ -1,40 +1,34 @@
-// (function($) {
-//     'use strict';
-//     $(function() {
-//     var todoListItem = $('.todo-list');
-//     var todoListInput = $('.todo-list-input');
-//     $('.todo-list-add-btn').on("click", function(event) {
-//     event.preventDefault();
-    
-//     var item = $(this).prevAll('.todo-list-input').val();
-    
-//     if (item) {
-//     todoListItem.append("<li> <div class='form-check'><label class='form-check-label'><input class='checkbox' type='checkbox' />" + item + "<i class='input-helper'></i></label></div><i class='remove mdi mdi-close-circle-outline'></i></li>");
-//     todoListInput.val("");
-//     }
-    
-//     });
-    
-//     todoListItem.on('change', '.checkbox', function() {
-//     if ($(this).attr('checked')) {
-//         $(this).removeAttr('checked');
-//     } else {
-//         $(this).attr('checked', 'checked');
-//     }
-    
-//     $(this).closest("li").toggleClass('completed');
-    
-//     });
-    
-//     todoListItem.on('click', '.remove', function() {
-//     $(this).parent().remove();
-//     });
-    
-//     });
-//     })(jQuery);
+function editTask(taskId){
+    editedText = document.getElementById("editTaskText_"+taskId).innerHTML;
+    $.ajax({
+        url: "/task-edit",
+        type: 'POST',
+        data: {
+                taskId: taskId,
+                editedText: editedText
+        },
+        success: function() {
+            toastAlert('success', 'Task Has Been Edited Successfully');
+        },
+        error: function() {
+            toastAlert('error', 'Internal Error Occured. Code: X718SD');
+       
+        },
+    });
+}      
 
+window.livewire.on('toast:show', function (type, message) {
+     toastAlert(type, message)
+}); 
 
-
-
-
-
+function toastAlert(type, message, position = 'top-end', time = 2000)
+{
+    Swal.fire({
+        toast: true,
+        position: position,
+        icon: type,
+        title: message,
+        showConfirmButton: false,
+        timer: time
+    });
+}
