@@ -40,5 +40,5 @@
 @endsection
 
 @section('script')
-<script src="/assets/js/todo-list.js"></script>
+    <script src="/assets/js/todo-list.js"></script>
 @endsection
